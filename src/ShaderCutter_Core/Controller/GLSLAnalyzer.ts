@@ -60,7 +60,7 @@ export class GLSLAnalyzer{
         let count = 0;
         if(cursorPos.row != 0){
             for(let i = 0; i < cursorPos.row; i++){
-                count += splited[i].length;
+                count += splited[i].length + 1;
             }
         }
         count += cursorPos.column;
