@@ -23,11 +23,11 @@ uniform float time;
 
 void main(void) {
     vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-    uv = sin(uv + time) * 0.5 + 0.5;
+    uv.xy = sin(uv + time) * 0.5 + 0.5;
     gl_FragColor = vec4(uv, cos(time) * 0.5 + 0.5, 1.0);
 }
 `;
-    const b = GLSLAnalyzer.Analyze(codeB,{row:8,column:10});
+    const b = GLSLAnalyzer.Analyze(codeB,{row:9,column:10});
     console.log(b);
     if(b){
         console.log(GLSLCutCodeGenerator.Generate(b));

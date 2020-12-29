@@ -112,6 +112,10 @@ export class GLSLAnalyzer{
     static AnalyzeLocalVariable:(depthMap:ShaderDepthMap) => DefinitionData = (depthMap:ShaderDepthMap) => {
         //TODO ローカル変数の分析(対象変数の決定をするため)
         const definitionData:DefinitionData = {};
+        definitionData[0] = {};
+        definitionData[0]["gl_FragCoord"] = "vec4";
+        definitionData[0]["gl_FragColor"] = "vec4";
+
         for(let i = 0; i < depthMap.length; i++){
             const depthData = depthMap[i];
             const data = ShaderCutterRegex.defineRegex.exec(depthData.src);
