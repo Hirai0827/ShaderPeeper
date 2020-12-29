@@ -65,10 +65,10 @@ export class GLSLCutCodeGenerator {
                 return `gl_FragColor.xyz = vec3(${variableName});`;
                 break;
             case "float":
-                return `gl_FragColor = vec4(${variableName},1.0,1.0,1.0);`;
+                return `gl_FragColor = vec4(${variableName},0.0,0.0,1.0);`;
                 break;
             case "vec2":
-                return `gl_FragColor = vec4(${variableName},1.0,1.0);`;
+                return `gl_FragColor = vec4(${variableName},0.0,1.0);`;
                 break;
             case "vec3":
                 return `gl_FragColor = vec4(${variableName},1.0);`;
