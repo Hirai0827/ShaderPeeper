@@ -15,29 +15,20 @@ test("analyze test",()=>{
     if(a){
         expect(GLSLCutCodeGenerator.Generate(a)).toBe(code);
     }
-    const codeB = `#ifdef GL_ES
-precision mediump float;
-#endif
+    const codeB = `
+precision highp float;
 
-#extension GL_OES_standard_derivatives : enable
-
+uniform vec3 resolution;
 uniform float time;
-uniform vec2 mouse;
-uniform vec2 resolution;
 
-void main( void ) {
-
-\tvec3 p = normalize(vec3(gl_FragCoord.xy / resolution.xy ,.5));
-
-\t     p =  floor(p*52.0)/32.0;
-\t
-\tfloat color = fract((22.3+p.y)/p.z*2.6+time*2.8);
-\t 
-
-\tgl_FragColor = vec4( vec3( color,  color, sin( color + time / 2.0 ) * 2.75 ), 2.0 );
+void main(void) {
+    vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+    uv = sin(uv + time) * 0.5 + 0.5;
+    gl_FragColor = vec4(uv, cos(time) * 0.5 + 0.5, 1.0);
 }
 `;
-    const b = GLSLAnalyzer.Analyze(codeB,{row:15,column:12});
+    const b = GLSLAnalyzer.Analyze(codeB,{row:8,column:10});
+    console.log(b);
     if(b){
         console.log(GLSLCutCodeGenerator.Generate(b));
         expect(GLSLCutCodeGenerator.Generate(b)).toBe(codeB);

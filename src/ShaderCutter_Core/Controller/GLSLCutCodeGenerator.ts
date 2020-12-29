@@ -43,6 +43,7 @@ export class GLSLCutCodeGenerator {
             return{type,name};
         }
         const substituteRegRes = ShaderCutterRegex.substitutionRegex.exec(depthData.src);
+        console.log(substituteRegRes);
         if(substituteRegRes){
             const name:string = substituteRegRes[1];
             for(let i = depthData.depth; i >= 0; i--){
