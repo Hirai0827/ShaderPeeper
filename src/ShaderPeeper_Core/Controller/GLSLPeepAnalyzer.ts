@@ -1,29 +1,29 @@
-import {AnalyzeResult, SplitShader} from "../Data/AnalyzeResult";
+import {PeepAnalyzeResult, SplitShader} from "../Data/PeepAnalyzeResult";
 import {CursorPos} from "../Data/CursorPos";
 import {ShaderDepthMap} from "../Data/ShaderDepthData";
 import {DefinitionData} from "../Data/DefinitionData";
-import {ShaderCutterRegex} from "../Data/ShaderCutterRegex";
+import {ShaderPeeperRegex} from "../Data/ShaderPeeperRegex";
 import {VariableType} from "../Data/VariableType";
 
-export class GLSLAnalyzer{
-    static Analyze:(src:string,cursorPos:CursorPos) => AnalyzeResult|false = (src:string,cursorPos:CursorPos) => {
-        const splitCode = GLSLAnalyzer.SplitShader(src);
+export class GLSLPeepAnalyzer{
+    static Analyze:(src:string,cursorPos:CursorPos) => PeepAnalyzeResult|false = (src:string, cursorPos:CursorPos) => {
+        const splitCode = GLSLPeepAnalyzer.SplitShader(src);
         if(!splitCode){
             return false;
         }
-        const index = GLSLAnalyzer.cursorPos2Index(src,cursorPos) - splitCode.prefix.length;
-        const depthMap = GLSLAnalyzer.AnalyzeDepth(splitCode.mainFunc);
-        const depthIndex = GLSLAnalyzer.GetDepthMapIndex(depthMap,index);
-        const definitionData = GLSLAnalyzer.AnalyzeLocalVariable(depthMap);
+        const index = GLSLPeepAnalyzer.cursorPos2Index(src,cursorPos) - splitCode.prefix.length;
+        const depthMap = GLSLPeepAnalyzer.AnalyzeDepth(splitCode.mainFunc);
+        const depthIndex = GLSLPeepAnalyzer.GetDepthMapIndex(depthMap,index);
+        const definitionData = GLSLPeepAnalyzer.AnalyzeLocalVariable(depthMap);
 
         return {
             src:src,cursorPos:cursorPos,splitShader:splitCode,index:index,depthMap:depthMap,depthMapIndex:depthIndex,definitionData:definitionData
-        } as AnalyzeResult;
+        } as PeepAnalyzeResult;
     };
 
     static SplitShader:(src:string) => SplitShader|false = (src:string) => {
         //TODO Shaderのメイン関数のみ分離 正規表現のprefixを利用する（予定）
-        const mainPartRegRes = ShaderCutterRegex.mainPartRegex.exec(src);
+        const mainPartRegRes = ShaderPeeperRegex.mainPartRegex.exec(src);
         if(mainPartRegRes){
             const beginPoint = mainPartRegRes.index + mainPartRegRes[0].length;
             const prefix = src.substring(0,beginPoint);
@@ -118,7 +118,7 @@ export class GLSLAnalyzer{
 
         for(let i = 0; i < depthMap.length; i++){
             const depthData = depthMap[i];
-            const data = ShaderCutterRegex.defineRegex.exec(depthData.src);
+            const data = ShaderPeeperRegex.defineRegex.exec(depthData.src);
             if(data){
                 if(!definitionData[depthData.depth]){
                     definitionData[depthData.depth] = {};

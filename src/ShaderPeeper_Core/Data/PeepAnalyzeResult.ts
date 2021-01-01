@@ -9,7 +9,7 @@ export type SplitShader = {
     suffix:string
 }
 
-export type AnalyzeResult = {
+export type PeepAnalyzeResult = {
     src:string;
     splitShader:SplitShader;
     cursorPos:CursorPos;

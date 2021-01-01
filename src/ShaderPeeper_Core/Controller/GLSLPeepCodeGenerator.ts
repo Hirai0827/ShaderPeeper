@@ -1,17 +1,17 @@
-import {AnalyzeResult} from "../Data/AnalyzeResult";
+import {PeepAnalyzeResult} from "../Data/PeepAnalyzeResult";
 import {VariableType} from "../Data/VariableType";
 import {ShaderDepthData} from "../Data/ShaderDepthData";
 import {DefinitionData} from "../Data/DefinitionData";
-import {ShaderCutterRegex} from "../Data/ShaderCutterRegex";
+import {ShaderPeeperRegex} from "../Data/ShaderPeeperRegex";
 
 
 type VariableTypeAndName = {type:VariableType,name:string};
 
-export class GLSLCutCodeGenerator {
-    static Generate:(result:AnalyzeResult) => string = (result:AnalyzeResult) => {
+export class GLSLPeepCodeGenerator {
+    static Generate:(result:PeepAnalyzeResult) => string = (result:PeepAnalyzeResult) => {
         let code = "";
         let targetDepth = result.depthMap[result.depthMapIndex].depth;
-        const variableInfo = GLSLCutCodeGenerator.GetVariableTypeAndName(result.depthMap[result.depthMapIndex],result.definitionData);
+        const variableInfo = GLSLPeepCodeGenerator.GetVariableTypeAndName(result.depthMap[result.depthMapIndex],result.definitionData);
         if(variableInfo == false){
             return "";
         }
@@ -31,18 +31,18 @@ export class GLSLCutCodeGenerator {
             }
         }
 
-        code += "\n"+GLSLCutCodeGenerator.GenerateSuffixCode(variableInfo.type,variableInfo.name);
+        code += "\n"+GLSLPeepCodeGenerator.GenerateSuffixCode(variableInfo.type,variableInfo.name);
         return result.splitShader.prefix + code + result.splitShader.suffix;
     };
 
     static GetVariableTypeAndName:(depthData:ShaderDepthData,definitionData:DefinitionData) => VariableTypeAndName|false = (depthData:ShaderDepthData,definitionData:DefinitionData) => {
-        const definitionRegRes = ShaderCutterRegex.defineRegex.exec(depthData.src);
+        const definitionRegRes = ShaderPeeperRegex.defineRegex.exec(depthData.src);
         if(definitionRegRes){
             const type:VariableType = definitionRegRes[1] as VariableType;
             const name:string = definitionRegRes[2];
             return{type,name};
         }
-        const substituteRegRes = ShaderCutterRegex.substitutionRegex.exec(depthData.src);
+        const substituteRegRes = ShaderPeeperRegex.substitutionRegex.exec(depthData.src);
         console.log(substituteRegRes);
         if(substituteRegRes){
             const name:string = substituteRegRes[1];
