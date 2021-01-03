@@ -1,5 +1,5 @@
 {
-  "name": "ShaderCutter",
+  "name": "ShaderPeeper",
   "version": "1.0.0",
   "main": "build/index.js",
   "files": [
