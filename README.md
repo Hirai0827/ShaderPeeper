@@ -24,5 +24,5 @@ when the package is installed, compile from ts to js will automatically begin.
 ```
 ## Contact
 If you have something about the project please contact us
-- Hirai(@lucknknock)
+- Hirai0827([@lucknknock](https://twitter.com/lucknknock))
 <a href="https://gyazo.com/59f3c7234410054b27441adae39f6dae"><img src="https://i.gyazo.com/59f3c7234410054b27441adae39f6dae.png" alt="Image from Gyazo" width="400"/></a>
