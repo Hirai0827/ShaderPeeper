@@ -60,6 +60,9 @@ export class GLSLPeepAnalyzer{
         let count = 0;
         if(cursorPos.row != 0){
             for(let i = 0; i < cursorPos.row; i++){
+                if(!splited[i]){
+                    break;
+                }
                 count += splited[i].length + 1;
             }
         }
